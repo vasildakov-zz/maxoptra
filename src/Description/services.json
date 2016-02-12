@@ -1,0 +1,15 @@
+{
+    "name": "Product",
+    "apiVersion": "2012-11-25",
+    "baseUrl": "http://localhost:8000",
+    "description": "Product API",
+    "operations": {
+        "createSession": {
+            "uri": "rest/2/authentication/createSession?accountID={accountID}&password={password}&user={user}",
+            "httpMethod": "POST",
+            "parameters": {},
+            "summary": "Gets a list of Products",
+            "responseClass": "GetProductsOutput"
+        }
+    }
+}
