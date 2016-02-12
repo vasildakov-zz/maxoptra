@@ -3,7 +3,9 @@ namespace VasilDakov\MaxOptra;
 
 class Client
 {
-    public function __construct()
+    private $config;
+
+    public function __construct($config = array())
     {
         //
     }
