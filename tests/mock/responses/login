@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Date: Wed, 25 Nov 2009 12:00:00 GMT
+Connection: close
+Server: AmazonS3
+Content-Type: application/xml
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<apiResponse version="2.0">
+	<authResponse>
+		<sessionID>8aa519d2c0af4f37a27a42a995528199</sessionID >
+	</authResponse>
+</apiResponse>

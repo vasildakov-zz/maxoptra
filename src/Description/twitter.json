@@ -1,0 +1,13 @@
+{
+    "services": {
+        "twitter": {
+            "class": "VasilDakov\\MaxOptra\\TwitterClient",
+            "params": {
+                "consumer_key": "****",
+                "consumer_secret": "****",
+                "token": "****",
+                "token_secret": "****"
+            }
+        }
+    }
+}

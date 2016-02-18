@@ -1,0 +1,21 @@
+<?xml version=”1.0” encoding=”UTF-8” standalone=”yes”?>
+<apiResponse>
+	<orders>
+		<order>
+			<orderReference>Order 001</orderReference>
+			<status>Created</status>
+			<errors>
+				<error>
+					<errorCode>111</errorCode>
+					<errorMessage>Error Message</errorMessage>
+				<error>
+			</errors>
+			<warnings>
+				<warning>
+					<warningCode>222</warningCode>
+					<warningMessage>Warning Message</warningMessage>
+				<warning>
+			</warnings>
+		</order>
+	</orders>
+</apiResponse>

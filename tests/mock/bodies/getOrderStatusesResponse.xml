@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<apiResponse version="1.0">
+    <orderStatusResponse>
+        <unknownReferences>
+            <reference>1071088</reference>
+            <reference>1070807</reference>
+            <reference>1070773</reference>
+        </unknownReferences>
+    </orderStatusResponse>
+</apiResponse>
