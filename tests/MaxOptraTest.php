@@ -4,8 +4,8 @@ namespace VasilDakov\MaxOptra\Test;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
+#use GuzzleHttp\Psr7\Response;
+#use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 
@@ -22,9 +22,7 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->account  = 'ws';
-        
         $this->user     = 'paul.rooney';
-        
         $this->password = 'dontpreach';
 
         $this->config = [
@@ -34,10 +32,15 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         ];
 
         $client = new Client($this->config);
-        
         $maxoptra = new MaxOptra\MaxOptra($client);
         
-        $response = $maxoptra->createSession($this->account, $this->user, $this->password);
+        $request = new MaxOptra\Request\Session(
+            $this->account,
+            $this->user,
+            $this->password
+        );
+
+        $response = $maxoptra->createSession($request);
         
         $contents = $response->getBody()->getContents();
         
@@ -71,7 +74,14 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client($config);
         $maxoptra = new MaxOptra\MaxOptra($client);
-        $response = $maxoptra->createSession($this->account, $this->user, $this->password);
+
+        $request = new MaxOptra\Request\Session(
+            $this->account,
+            $this->user,
+            $this->password
+        );
+
+        $response = $maxoptra->createSession($request);
 
         $contents = $response->getBody()->getContents();
         $xml = new \SimpleXMLElement($contents);
@@ -89,7 +99,9 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         $client = new Client($this->config);
         $maxoptra = new MaxOptra\MaxOptra($client);
 
-        $response = $maxoptra->createSession(null, null, null);
+        $response = $maxoptra->createSession(
+            new MaxOptra\Request\Session(null, null, null)
+        );
     }
 
 

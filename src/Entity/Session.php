@@ -1,6 +1,8 @@
 <?php
 namespace VasilDakov\MaxOptra\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Session
  *
@@ -12,15 +14,18 @@ class Session
 {
    /**
     * @var string $id
+    * @Serializer\XmlElement(cdata=false)
+    * @Serializer\SerializedName("sessionID")
+    * @Serializer\Type("string")
     */
-    private $_id;
+    private $id;
 
     /**
      * @param string $id  The session ID
      */
     public function __construct($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -30,6 +35,6 @@ class Session
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 }

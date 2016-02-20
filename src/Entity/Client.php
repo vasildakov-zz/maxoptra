@@ -1,6 +1,8 @@
 <?php
 namespace VasilDakov\MaxOptra\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Client
  *
@@ -12,16 +14,19 @@ class Client
 {
     /**
      * @var string $name
+     * @Serializer\Type("string")
      */
     private $name;
 
     /**
      * @var string $contactPerson
+     * @Serializer\Type("string")
      */
     private $contactPerson;
 
     /**
      * @var integer $contactNumber
+     * @Serializer\Type("integer")
      */
     private $contactNumber;
 }

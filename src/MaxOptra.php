@@ -53,24 +53,18 @@ class MaxOptra
      * Input data for authentication request should be sent as
      * attributes of request and should not be included into request body.
      *
-     * @param  string    $account           Account relative path
-     * @param  string    $user              Login of user that allowed access to the API
-     * @param  string    $password          User password
+     * @param  Request\Session    $request
      * @return Response  $response
      * @throws \InvalidArgumenException
      */
-    public function createSession($accountID, $user, $password)
+    public function createSession(Request\Session $request)
     {
-        if (!isset($accountID) || !isset($user) || !isset($password)) {
-            throw new InvalidArgumentException;
-        }
-
         $response = $this->client->request('POST', 'authentication/createSession', [
             'headers' => $this->headers,
             'query' => [
-                'accountID' => $accountID,
-                'user'      => $user,
-                'password'  => $password
+                'accountID' => $request->getAccount(),
+                'user'      => $request->getUser(),
+                'password'  => $request->getPassword()
             ]
         ]);
 
@@ -88,7 +82,7 @@ class MaxOptra
      * Method: POST
      * Acceptable request representations: application/xml
      */
-    public function saveOrder(Request\RequestInterface $request)
+    public function saveOrder(Request\Save $request)
     {
         //
     }
@@ -99,7 +93,7 @@ class MaxOptra
      * @param  RequestInterface $request
      * @return
      */
-    public function deleteOrder(Request\RequestInterface $request)
+    public function deleteOrder(Request\Delete $request)
     {
         //
     }
