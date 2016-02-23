@@ -43,6 +43,7 @@ class SaveOrderTest extends \PHPUnit_Framework_TestCase
 
         // deserialize
         $object = $serializer->deserialize($xml, Request\SaveOrder::class, 'xml');
-        var_dump($object);
+        self::assertInstanceOf(Request\SaveOrder::class, $object);
+        //var_dump($object);
     }
 }
