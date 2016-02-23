@@ -71,6 +71,15 @@ class SaveOrder
     }
 
     /**
+     * @return Collections\Collection $orders
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+
+    /**
      * @param Entity\Session $session
      */
     public function removeOrder(Entity\Order $order)
