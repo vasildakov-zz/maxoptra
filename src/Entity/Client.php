@@ -30,18 +30,6 @@ class Client
      */
     private $contactNumber;
 
-    /**
-     * Populate from an array.
-     *
-     * @param array $data
-     */
-    public function exchangeArray($data = array())
-    {
-        $this->name          = $data['name'];
-        $this->contactPerson = $data['contactPerson'];
-        $this->contactNumber = $data['contactNumber'];
-    }
-
 
     /**
      * @param string $name
