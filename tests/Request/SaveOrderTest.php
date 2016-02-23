@@ -1,5 +1,5 @@
 <?php
-namespace VasilDakov\MaxOptra\Test;
+namespace VasilDakov\MaxOptra\Test\Request;
 
 use Doctrine\Common\Collections;
 

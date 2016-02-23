@@ -4,7 +4,7 @@ namespace VasilDakov\MaxOptra\Request;
 use JMS\Serializer\Annotation as Serializer;
 use InvalidArgumentException;
 
-class Session implements RequestInterface
+class Authentication implements RequestInterface
 {
     /**
      * @var string $account
@@ -28,8 +28,8 @@ class Session implements RequestInterface
             throw new InvalidArgumentException;
         }
 
-        $this->account = $account;
-        $this->user = $user;
+        $this->account  = $account;
+        $this->user     = $user;
         $this->password = $password;
     }
 

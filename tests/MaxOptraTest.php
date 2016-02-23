@@ -35,7 +35,7 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         $client = new Client($this->config);
         $maxoptra = new MaxOptra\MaxOptra($client);
         
-        $request = new MaxOptra\Request\Session(
+        $request = new MaxOptra\Request\Authentication(
             $this->account,
             $this->user,
             $this->password
@@ -76,16 +76,14 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         $client = new Client($config);
         $maxoptra = new MaxOptra\MaxOptra($client);
 
-        $request = new MaxOptra\Request\Session(
+        $request = new MaxOptra\Request\Authentication(
             $this->account,
             $this->user,
             $this->password
         );
 
         $response = $maxoptra->createSession($request);
-
         $contents = $response->getBody()->getContents();
-        //var_dump($contents);
         
         $context = new SerializationContext();
         $context->setSerializeNull(true);
@@ -98,7 +96,7 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
 
         self::assertInstanceOf(MaxOptra\Response\Authentication::class, $authentication);
         self::assertInstanceOf(MaxOptra\Entity\Session::class, $authentication->getSession());
-        
+
         self::assertNotNull($authentication->getSession()->getId());
     }
 
@@ -111,7 +109,7 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         $maxoptra = new MaxOptra\MaxOptra($client);
 
         $response = $maxoptra->createSession(
-            new MaxOptra\Request\Session(null, null, null)
+            new MaxOptra\Request\Authentication(null, null, null)
         );
     }
 

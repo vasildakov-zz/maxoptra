@@ -53,11 +53,11 @@ class MaxOptra
      * Input data for authentication request should be sent as
      * attributes of request and should not be included into request body.
      *
-     * @param  Request\Session    $request
+     * @param  Request\Authentication    $request
      * @return Response  $response
      * @throws \InvalidArgumenException
      */
-    public function createSession(Request\Session $request)
+    public function createSession(Request\Authentication $request)
     {
         $response = $this->client->request('POST', 'authentication/createSession', [
             'headers' => $this->headers,

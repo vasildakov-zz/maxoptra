@@ -21,12 +21,12 @@ class Location
     private $address;
 
     /**
-     * @var double $latitude
+     * @var float $latitude
      */
     private $latitude;
 
     /**
-     * @var double $longitude>
+     * @var float $longitude
      */
     private $longitude;
 
@@ -36,28 +36,6 @@ class Location
 
     }
 
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
-  
-    /**
-     * Populate from an array.
-     *
-     * @param array $data
-     */
-    public function exchangeArray($data = array())
-    {
-        $this->name = $data['name'];
-        $this->address = $data['address'];
-        $this->latitude = $data['latitude'];
-        $this->longitude = $data['longitude'];
-    }
 
     public function setName($name)
     {
@@ -70,5 +48,46 @@ class Location
     public function getName()
     {
         return $this->name;
+    }
+
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 }

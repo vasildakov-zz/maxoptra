@@ -91,26 +91,6 @@ class Order
         //
     }
 
-    /**
-     * Populate from an array.
-     *
-     * @param array $data
-     */
-    public function exchangeArray($data = array())
-    {
-        $this->orderReference         = $data['orderReference'];
-        $this->areaOfControl          = $data['areaOfControl'];
-        $this->date                   = $data['date'];
-
-        $this->client                 = $data['client'];
-        $this->priority               = $data['priority'];
-        $this->durationDrop           = $data['durationDrop'];
-
-        $this->capacity               = $data['capacity'];
-        $this->volume                 = $data['volume'];
-        $this->collection             = $data['collection'];
-        $this->additionalInstructions = $data['additionalInstructions'];
-    }
 
     /**
      * @param string $orderReference

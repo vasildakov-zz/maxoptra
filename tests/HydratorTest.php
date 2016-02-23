@@ -22,7 +22,7 @@ class HydratorTest extends \PHPUnit_Framework_TestCase
             'longitude'=> -1.457062,
         ];
 
-        $hydrator = new Hydrator\ArraySerializable();
+        $hydrator = new Hydrator\ClassMethods();
         
         $entity = $hydrator->hydrate($data, new Entity\Location);
 
