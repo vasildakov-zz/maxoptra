@@ -29,4 +29,65 @@ class Client
      * @Serializer\Type("integer")
      */
     private $contactNumber;
+
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function exchangeArray($data = array())
+    {
+        $this->name          = $data['name'];
+        $this->contactPerson = $data['contactPerson'];
+        $this->contactNumber = $data['contactNumber'];
+    }
+
+
+    /**
+     * @param string $name
+     * @return $this 
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $contactPerson
+     * @return $this 
+     */
+    public function setContactPerson($contactPerson)
+    {
+        $this->contactPerson = $contactPerson;
+        
+        return $this;
+    }
+
+    public function getContactPerson()
+    {
+        return $this->contactPerson;
+    }
+
+    /**
+     * @param string $contactNumber
+     * @return $this 
+     */
+    public function setContactNumber($contactNumber)
+    {
+        $this->contactNumber = $contactNumber;
+        
+        return $this;
+    }
+
+    public function getContactNumber()
+    {
+        return $this->contactNumber;
+    }
 }

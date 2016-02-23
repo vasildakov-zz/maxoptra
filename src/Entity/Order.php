@@ -2,6 +2,7 @@
 namespace VasilDakov\MaxOptra\Entity;
 
 use DateTime;
+use VasilDakov\MaxOptra\Entity;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
@@ -85,8 +86,190 @@ class Order
     private $additionalInstructions;
 
 
-    public function __construct($orderReference)
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function exchangeArray($data = array())
+    {
+        $this->orderReference         = $data['orderReference'];
+        $this->areaOfControl          = $data['areaOfControl'];
+        $this->date                   = $data['date'];
+
+        $this->client                 = $data['client'];
+        $this->priority               = $data['priority'];
+        $this->durationDrop           = $data['durationDrop'];
+
+        $this->capacity               = $data['capacity'];
+        $this->volume                 = $data['volume'];
+        $this->collection             = $data['collection'];
+        $this->additionalInstructions = $data['additionalInstructions'];
+    }
+
+    /**
+     * @param string $orderReference
+     * @return $this 
+     */
+    public function setOrderReference($orderReference)
     {
         $this->orderReference = $orderReference;
+
+        return $this;
+    }
+
+    public function getOrderReference()
+    {
+        return $this->orderReference;
+    }
+
+
+    /**
+     * @param string $areaOfControl
+     * @return $this 
+     */
+    public function setAreaOfControl($areaOfControl)
+    {
+        $this->areaOfControl = $areaOfControl;
+
+        return $this;
+    }
+
+    public function getAreaOfControl()
+    {
+        return $this->areaOfControl;
+    }
+
+    /**
+     * @param DateTime $date
+     * @return $this 
+     */
+    public function setDate(DateTime $date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param Entity\Client $client
+     * @return $this 
+     */
+    public function setClient(Entity\Client $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param int $priority
+     * @return $this 
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param int $durationDrop
+     * @return $this 
+     */
+    public function setDurationDrop($durationDrop)
+    {
+        $this->durationDrop = $durationDrop;
+
+        return $this;
+    }
+
+    public function getDurationDrop()
+    {
+        return $this->durationDrop;
+    }
+
+    /**
+     * @param int $capacity
+     * @return $this 
+     */
+    public function setCapacity($capacity)
+    {
+        $this->capacity = $capacity;
+
+        return $this;
+    }
+
+    public function getCapacity()
+    {
+        return $this->capacity;
+    }
+
+    /**
+     * @param int $volume
+     * @return $this 
+     */
+    public function setVolume($volume)
+    {
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function getVolume()
+    {
+        return $this->volume;
+    }
+
+    /**
+     * @param boolean $collection
+     * @return $this 
+     */
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
+
+        return $this;
+    }
+
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param string $additionalInstructions
+     * @return $this 
+     */
+    public function setAdditionalInstructions($additionalInstructions)
+    {
+        $this->additionalInstructions = $additionalInstructions;
+
+        return $this;
+    }
+
+    public function getAdditionalInstructions()
+    {
+        return $this->additionalInstructions;
     }
 }
