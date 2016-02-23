@@ -1,6 +1,7 @@
 <?php
 namespace VasilDakov\MaxOptra\Request;
 
+use JMS\Serializer\Annotation as Serializer;
 use InvalidArgumentException;
 
 class Session implements RequestInterface

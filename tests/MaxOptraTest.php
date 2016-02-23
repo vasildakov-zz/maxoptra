@@ -4,12 +4,13 @@ namespace VasilDakov\MaxOptra\Test;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-#use GuzzleHttp\Psr7\Response;
-#use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 
-use Zend\Config\Config;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 
 use VasilDakov\MaxOptra;
 
@@ -84,11 +85,21 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
         $response = $maxoptra->createSession($request);
 
         $contents = $response->getBody()->getContents();
-        $xml = new \SimpleXMLElement($contents);
-        //var_dump($xml);
+        //var_dump($contents);
+        
+        $context = new SerializationContext();
+        $context->setSerializeNull(true);
+
+        $serializer = SerializerBuilder::create()->build();
+        $authentication = $serializer->deserialize($contents, MaxOptra\Response\Authentication::class, 'xml');
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals('OK', $response->getReasonPhrase());
+
+        self::assertInstanceOf(MaxOptra\Response\Authentication::class, $authentication);
+        self::assertInstanceOf(MaxOptra\Entity\Session::class, $authentication->getSession());
+        
+        self::assertNotNull($authentication->getSession()->getId());
     }
 
 
