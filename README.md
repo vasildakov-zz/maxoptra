@@ -5,6 +5,7 @@ Maxoptra REST API Client
 
 [![Build Status](https://travis-ci.org/vasildakov/maxoptra.svg?branch=master)](https://travis-ci.org/vasildakov/maxoptra)
 [![Coverage Status](https://coveralls.io/repos/github/vasildakov/maxoptra/badge.svg?branch=develop)](https://coveralls.io/github/vasildakov/maxoptra?branch=develop)
+[![Code Climate](https://codeclimate.com/github/vasildakov/maxoptra/badges/gpa.svg)](https://codeclimate.com/github/vasildakov/maxoptra)
 
 
 Usage Example
