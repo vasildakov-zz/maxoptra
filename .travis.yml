@@ -10,6 +10,10 @@ matrix:
     - php: 5.4
     - php: 5.3
 
+addons:
+  code_climate:
+    repo_token: 82c0aac3de3676696ac8f1018e7c223f8f891ea3
+    
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar self-update
@@ -22,3 +26,4 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
+  - vendor/bin/test-reporter
