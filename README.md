@@ -38,6 +38,7 @@ Usage with JsonStream Handler
 
 ```php
 <?php
+    use GuzzleHttp\HandlerStack;
     use VasilDakov\MaxOptra\MaxOptra;
     use VasilDakov\MaxOptra\Request\Authentication;
     use VasilDakov\MaxOptra\Middleware\JsonStream;
