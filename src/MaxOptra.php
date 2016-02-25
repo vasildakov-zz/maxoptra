@@ -3,12 +3,18 @@ namespace VasilDakov\MaxOptra;
 
 use VasilDakov\MaxOptra\Request;
 use VasilDakov\MaxOptra\Response;
+use VasilDakov\MaxOptra\Middleware\JsonStream;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7;
-
 use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
+
 use InvalidArgumentException;
 use Zend\Config\Config;
+
 
 /**
  * http://beta.maxoptra.com/rest/2/authentication/createSession?accountID=ws&password=dontpreach&user=paul.rooney
@@ -17,6 +23,10 @@ use Zend\Config\Config;
  * user: paul.rooney
  * password: dontpreach
  */
+
+// the act of retrieving a response from a service should be separate from interpreting the contents of the response.
+// A basic client should reach out to to a service with a request, fetch data, and return it as a string
+// 
 
 class MaxOptra
 {
@@ -36,12 +46,11 @@ class MaxOptra
 
 
     /**
-     * @param ClientInterface $client
+     * @param \GuzzleHttp\ClientInterface $client
      */
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-
         $this->headers = [
             'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept' => 'application/xml',
@@ -54,8 +63,7 @@ class MaxOptra
      * attributes of request and should not be included into request body.
      *
      * @param  Request\Authentication    $request
-     * @return Response  $response
-     * @throws \InvalidArgumenException
+     * @return Response                  $response
      */
     public function createSession(Request\Authentication $request)
     {
@@ -65,7 +73,8 @@ class MaxOptra
                 'accountID' => $request->getAccount(),
                 'user'      => $request->getUser(),
                 'password'  => $request->getPassword()
-            ]
+            ],
+            'body' => ''
         ]);
 
         return $response;

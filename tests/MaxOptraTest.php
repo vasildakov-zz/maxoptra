@@ -1,152 +1,78 @@
 <?php
 namespace VasilDakov\MaxOptra\Test;
 
+use Psr\Http\Message\ResponseInterface;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 
+use Zend\Json\Json;
+
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 
 use VasilDakov\MaxOptra;
+use VasilDakov\MaxOptra\Middleware\JsonStream;
 
 class MaxOptraTest extends \PHPUnit_Framework_TestCase
 {
-    private $client;
 
-    private $maxoptra;
+	public function setUp()
+	{
 
-    public function setUp()
-    {
-        $this->account  = 'ws';
-        $this->user     = 'paul.rooney';
-        $this->password = 'dontpreach';
-
-        $this->config = [
-            'base_uri' => 'http://beta.maxoptra.com/rest/2/',
-            'timeout'  => 2.0,
-            'handler'  => null
-        ];
-
-        $client = new Client($this->config);
-        $maxoptra = new MaxOptra\MaxOptra($client);
-        
-        $request = new MaxOptra\Request\Authentication(
-            $this->account,
-            $this->user,
-            $this->password
-        );
-
-        $response = $maxoptra->createSession($request);
-        
-        $contents = $response->getBody()->getContents();
-        
-        $xml = new \SimpleXMLElement($contents);
-        
-        $this->sessionID = (string)$xml->authResponse->sessionID;
-        //var_dump($this->sessionID);
-    }
+	}
 
 
     public function testAbc()
     {
-        /* $client = new Client([
-            'base_uri' => 'http://review.maxoptra.com/rest/2',
+        $status  = 200;
+        $headers = ['Accept' => 'application/xml'];
+        $body    = fopen('./tests/mock/bodies/response/authResponse.xml', 'r+');
+
+        // Create a mock and queue two responses.
+        $mock = new MockHandler([
+            new Response($status, $headers, $body)
         ]);
 
-        $headers = [];
-        $body    = 'accountID=demo&user=demo&password=123';
+        $stack = HandlerStack::create($mock);
+        $stack->push(Middleware::mapResponse(function (ResponseInterface $response) {
+            $json = new JsonStream($response->getBody());
+            return $response->withBody($json);
+        }));
 
-        $request = new Request('POST', '/post', $headers, $body);
-
-        $response = $client->send($request);
-        var_dump($response->getBody()->getContents()); */
-
-    }
-
-
-    public function testCreateSession()
-    {
-        $config = $this->config;
+        $config = [
+            'base_uri' => 'http://beta.maxoptra.com/rest/2/',
+            'handler' => $stack,
+        ];
 
         $client = new Client($config);
         $maxoptra = new MaxOptra\MaxOptra($client);
 
-        $request = new MaxOptra\Request\Authentication(
-            $this->account,
-            $this->user,
-            $this->password
-        );
+        $request = new MaxOptra\Request\Authentication('account', 'user', 'password');
 
         $response = $maxoptra->createSession($request);
-        $contents = $response->getBody()->getContents();
-        
-        $context = new SerializationContext();
-        $context->setSerializeNull(true);
+        //$contents = $response->getBody()->getContents();
 
-        $serializer = SerializerBuilder::create()->build();
-        $authentication = $serializer->deserialize($contents, MaxOptra\Response\Authentication::class, 'xml');
+        $json = $response->getBody()->jsonSerialize();
+        $array = Json::decode($json, true);
 
-        self::assertEquals(200, $response->getStatusCode());
-        self::assertEquals('OK', $response->getReasonPhrase());
-
-        self::assertInstanceOf(MaxOptra\Response\Authentication::class, $authentication);
-        self::assertInstanceOf(MaxOptra\Entity\Session::class, $authentication->getSession());
-
-        self::assertNotNull($authentication->getSession()->getId());
-    }
+        $this->assertEquals('OK', $response->getReasonPhrase());
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('8aa519d2c0af4f37a27a42a995528199', $array['apiResponse']['authResponse']['sessionID']);
+    } 
 
 
-    public function testCreateSessionThrowException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        $client = new Client($this->config);
-        $maxoptra = new MaxOptra\MaxOptra($client);
-
-        $response = $maxoptra->createSession(
-            new MaxOptra\Request\Authentication(null, null, null)
-        );
-    }
-
-
-    public function testGetOrderStatuses()
-    {
-        $orders = '1071088*1070773*1070807*';
-
-        $client = new Client($this->config);
-        $maxoptra = new MaxOptra\MaxOptra($client);
-
-        $response = $maxoptra->getOrderStatuses($this->sessionID, $orders);
-
-        $contents = $response->getBody()->getContents();
-        $xml = new \SimpleXMLElement($contents);
-
-        self::assertEquals(200, $response->getStatusCode());
-        self::assertEquals('OK', $response->getReasonPhrase());
-    }
-
-
-    public function testGetOrderStatusesThrowException()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        $client = new Client($this->config);
-        $maxoptra = new MaxOptra\MaxOptra($client);
-
-        $response = $maxoptra->getOrderStatuses(null, null);
-    }
-
-
-    /* public function testXyz()
+    public function testXyz()
     {
         $status  = 200;
         $headers = ['Accept' => 'application/xml'];
-        $body    = fopen('./tests/mock/bodies/login.xml', 'r+');
+        $body    = fopen('./tests/mock/bodies/response/authResponse.xml', 'r+');
 
         // Create a mock and queue two responses.
         $mock = new MockHandler([
@@ -155,19 +81,23 @@ class MaxOptraTest extends \PHPUnit_Framework_TestCase
 
         $handler = HandlerStack::create($mock);
 
-        $config = $this->config;
-        $config = ['handler'  => $handler];
+        $config = [
+            'base_uri' => 'http://beta.maxoptra.com/rest/2/',
+            'handler' => $handler,
+        ];
 
         $client = new Client($config);
         $maxoptra = new MaxOptra\MaxOptra($client);
-        
-        $response = $maxoptra->createSession(1, 2, 3);
+
+        $request = new MaxOptra\Request\Authentication('account', 'user', 'password');
+
+        $response = $maxoptra->createSession($request);
         $contents = $response->getBody()->getContents();
         $xml = new \SimpleXMLElement($contents);
-        var_dump($xml);
+        //var_dump($xml); exit();
 
         $this->assertEquals('OK', $response->getReasonPhrase());
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('8aa519d2c0af4f37a27a42a995528199', $xml->authResponse->sessionID);
-    } */
+    } 
 }

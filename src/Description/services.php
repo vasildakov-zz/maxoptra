@@ -1,4 +1,5 @@
 <?php
+// @codeCoverageIgnore
 return [
     'baseUrl' => 'review.maxoptra.com',
     'operations' => [

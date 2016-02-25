@@ -45,6 +45,7 @@ class SaveOrder
 
     /**
      * @param Entity\Session $session
+     * @return $this
      */
     public function setSession(Entity\Session $session)
     {

@@ -1,5 +1,4 @@
-# maxoptra
-Maxoptra REST API Client
+# Maxoptra REST API Client
 =======================
 
 
@@ -25,8 +24,44 @@ Usage Example
     $client = new Client($config);
     $maxoptra = new MaxOptra($client);
 
-    $request = new Authentication($account, $user, $password);
+    $response = $maxoptra->authenticate(
+        new Authentication('account', 'user', 'password')
+    );
 
-    $response = $maxoptra->authenticate($request);
+    $xml = $contents = $response->getBody()->getContents();
 
+?>
+```
+
+Usage with JsonStream Handler
+-------------
+
+```php
+<?php
+    use VasilDakov\MaxOptra\MaxOptra;
+    use VasilDakov\MaxOptra\Request\Authentication;
+    use VasilDakov\MaxOptra\Middleware\JsonStream;
+
+    $stack = HandlerStack::create();
+
+    $stack->push(Middleware::mapResponse(function (ResponseInterface $response) {
+        $json = new JsonStream($response->getBody());
+        return $response->withBody($json);
+    }));
+
+    $config = [
+        'base_uri' => 'http://beta.maxoptra.com/rest/2/',
+        'handler' => $stack,
+    ];
+
+    $client = new Client($config);
+    $maxoptra = new MaxOptra($client);
+
+    $response = $maxoptra->authenticate(
+        new Authentication('account', 'user', 'password')
+    );
+
+    $json = $response->getBody()->jsonSerialize(); // json
+    $array = Json::decode($json, true); // array
+?>
 ```

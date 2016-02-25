@@ -21,14 +21,17 @@
         "zendframework/zend-hydrator": "^2.1",
         "zendframework/zend-serializer": "^2.6",
         "zendframework/zend-filter": "^2.6",
-        "zendframework/zend-servicemanager": "^3.0"
+        "zendframework/zend-servicemanager": "^3.0",
+        "zendframework/zend-json": "^2.6",
+        "zendframework/zendxml": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.0",
         "phpunit/phpunit-mock-objects": "3.0.*",
         "satooshi/php-coveralls": "^1.0",
         "behat/behat": "~3.0",
-        "phpspec/phpspec": "~2.1"
+        "phpspec/phpspec": "~2.1",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
